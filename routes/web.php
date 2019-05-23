@@ -14,3 +14,15 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::any('/wechat', 'WeChatController@serve');
+
+Route::group(
+    [
+        'middleware' => ['web', 'oauth_user.default',],
+    ], function () {
+    Route::get('user', function () {
+        $user = session('wechat.oauth_user.default');
+        dd($user);
+    });
+});
